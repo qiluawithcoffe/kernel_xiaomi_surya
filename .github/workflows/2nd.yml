@@ -36,8 +36,10 @@ jobs:
           export CROSS_COMPILE_COMPAT=arm-linux-gnueabi-
           make O=out ARCH=arm64 surya_defconfig
           make -j$(nproc) O=out ARCH=arm64 CC=clang \
-              CROSS_COMPILE=$CROSS_COMPILE \
-              CROSS_COMPILE_COMPAT=$CROSS_COMPILE_COMPAT
+            CROSS_COMPILE=$CROSS_COMPILE \
+            CROSS_COMPILE_COMPAT=$CROSS_COMPILE_COMPAT \
+            V=1
+            
       - name: Clone AnyKernel3
         run: |
           git clone https://github.com/osm0sis/AnyKernel3.git anykernel
