@@ -19,8 +19,9 @@ jobs:
           sudo apt-get install -y \
             bc bison flex libssl-dev libncurses-dev \
             build-essential wget git python3 \
-            libelf-dev zip curl
-
+            libelf-dev zip curl ccache \
+            gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+            
       - name: Clone prebuilt Clang
         uses: actions/checkout@v4
         with:
