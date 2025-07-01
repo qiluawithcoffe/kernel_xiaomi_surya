@@ -23,11 +23,8 @@ jobs:
             gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
             
       - name: Clone prebuilt Clang
-        uses: actions/checkout@v4
-        with:
-          repository: ekqiplur/qiclang
-          path: clang
-          lfs: true
+        run: |
+          git clone --depth=1 https://github.com/ekqiplur/qiclang.git clang
 
       - name: Build kernel with Clang
         run: |
@@ -41,17 +38,14 @@ jobs:
           make -j$(nproc) O=out ARCH=arm64 CC=clang \
               CROSS_COMPILE=$CROSS_COMPILE \
               CROSS_COMPILE_COMPAT=$CROSS_COMPILE_COMPAT
-
       - name: Clone AnyKernel3
         run: |
           git clone https://github.com/osm0sis/AnyKernel3.git anykernel
-
       - name: Package kernel with AnyKernel3
         run: |
           cp out/arch/arm64/boot/Image anykernel/
           cd anykernel
           zip -r9 ../KerNullException.zip ./*
-
       - name: Upload flashable kernel zip
         uses: actions/upload-artifact@v4
         with:
@@ -63,7 +57,7 @@ jobs:
           BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           CHAT_ID: ${{ secrets.TG_CHAT_ID }}
         run: |
-          curl -F document=@KerNullException.zip.zip \
+          curl -F document=@KerNullException.zip \
                -F chat_id=$CHAT_ID \
-               -F caption="SELAMAT Ekqi Build selesai! Ini kernel flashable terbaru." \
+               -F caption="✅ Build selesai! Ini kernel flashable terbaru." \
                https://api.telegram.org/bot$BOT_TOKEN/sendDocument
