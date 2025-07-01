@@ -24,7 +24,7 @@ jobs:
       - name: Clone prebuilt Clang
         uses: actions/checkout@v4
         with:
-          repository: https://github.com/ekqiplur/qiclang
+          repository: ekqiplur/qiclang
           path: clang
           lfs: true
 
